@@ -19,15 +19,22 @@ void EmptyLinkFunctionForGeneratedCodePickup() {}
 	UPackage* Z_Construct_UPackage__Script_BatteryCollector();
 	BATTERYCOLLECTOR_API UFunction* Z_Construct_UFunction_APickup_isActive();
 	BATTERYCOLLECTOR_API UFunction* Z_Construct_UFunction_APickup_setActive();
+	BATTERYCOLLECTOR_API UFunction* Z_Construct_UFunction_APickup_WasCollected();
 	ENGINE_API UClass* Z_Construct_UClass_USceneComponent_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_UStaticMeshComponent_NoRegister();
 // End Cross Module References
+	static FName NAME_APickup_WasCollected = FName(TEXT("WasCollected"));
+	void APickup::WasCollected()
+	{
+		ProcessEvent(FindFunctionChecked(NAME_APickup_WasCollected),NULL);
+	}
 	void APickup::StaticRegisterNativesAPickup()
 	{
 		UClass* Class = APickup::StaticClass();
 		static const FNameNativePtrPair Funcs[] = {
 			{ "isActive", &APickup::execisActive },
 			{ "setActive", &APickup::execsetActive },
+			{ "WasCollected", &APickup::execWasCollected },
 		};
 		FNativeFunctionRegistrar::RegisterFunctions(Class, Funcs, ARRAY_COUNT(Funcs));
 	}
@@ -107,6 +114,30 @@ void EmptyLinkFunctionForGeneratedCodePickup() {}
 		}
 		return ReturnFunction;
 	}
+	struct Z_Construct_UFunction_APickup_WasCollected_Statics
+	{
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_APickup_WasCollected_Statics::Function_MetaDataParams[] = {
+		{ "Category", "pickup" },
+		{ "ModuleRelativePath", "Pickup.h" },
+		{ "ToolTip", "fucntion to call when pickup is collected" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_APickup_WasCollected_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_APickup, "WasCollected", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x08020C00, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_APickup_WasCollected_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_APickup_WasCollected_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_APickup_WasCollected()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_APickup_WasCollected_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
 	UClass* Z_Construct_UClass_APickup_NoRegister()
 	{
 		return APickup::StaticClass();
@@ -142,6 +173,7 @@ void EmptyLinkFunctionForGeneratedCodePickup() {}
 	const FClassFunctionLinkInfo Z_Construct_UClass_APickup_Statics::FuncInfo[] = {
 		{ &Z_Construct_UFunction_APickup_isActive, "isActive" }, // 1322865740
 		{ &Z_Construct_UFunction_APickup_setActive, "setActive" }, // 1538798851
+		{ &Z_Construct_UFunction_APickup_WasCollected, "WasCollected" }, // 1151721476
 	};
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_APickup_Statics::Class_MetaDataParams[] = {
@@ -204,7 +236,7 @@ void EmptyLinkFunctionForGeneratedCodePickup() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(APickup, 3538067720);
+	IMPLEMENT_CLASS(APickup, 1443433223);
 	static FCompiledInDefer Z_CompiledInDefer_UClass_APickup(Z_Construct_UClass_APickup, &APickup::StaticClass, TEXT("/Script/BatteryCollector"), TEXT("APickup"), false, nullptr, nullptr, nullptr);
 	DEFINE_VTABLE_PTR_HELPER_CTOR(APickup);
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
