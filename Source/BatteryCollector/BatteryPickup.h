@@ -18,5 +18,7 @@ public:
 	// Sets default values for this actor's properties
 	ABatteryPickup();
 	
+	// Override the WasCollected function - use Implementation because it's a blueprint natiive event
+	void WasCollected_Implementation() override;
 	
 };

@@ -65,7 +65,7 @@ void ASpawnVolume::SpawnPickup()
 
 			// Get a random rotation for the spawned item
 			FRotator SpawnRotation;
-			SpawnRotation.Yaw = FMath::FRand() * 36.0f;
+			SpawnRotation.Yaw = FMath::FRand() * 360.0f;
 			SpawnRotation.Pitch = FMath::FRand() * 360.0f;
 			SpawnRotation.Roll = FMath::FRand() * 360.0f;
 

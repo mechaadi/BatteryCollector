@@ -34,7 +34,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "pickup")
 	void setActive(bool NewPickupState);
 
-
+	//fucntion to call when pickup is collected
+	UFUNCTION(BlueprintNativeEvent, Category = "pickup")
+		void WasCollected();
+		virtual void WasCollected_Implementation();
 
 private:
 	UPROPERTY(EditAnywhere, Category="Pickup")
