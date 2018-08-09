@@ -32,6 +32,17 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
 
+	//ACCESSOR FUNCTION FOR INITIAL POWER
+	UFUNCTION(BlueprintPure, Category = "power")
+		float GetInitialPower();
+	
+	//ACCESSOR FUNCTION FOR CURRENT POWER
+	UFUNCTION(BlueprintPure, Category = "power")
+		float GetCurrentPower();
+	//fUNCTION TO UPDATE THE CHARACTERS'S POWER
+	// @param PowerChange This is the amount to change the power by, and it can be positve or negative.
+	UFUNCTION(BlueprintCallable, Category = "power")
+		void GetUpdatePower(float PowerChange);
 protected:
 
 	/** Resets HMD orientation in VR. */
@@ -66,6 +77,18 @@ protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	// End of APawn interface
 
+	//called when we press a key to collect any pickups in the sphere
+	UFUNCTION(BlueprintCallable, Category = "Pickups")
+		void CollectPickups();
+
+	//starting power level of the character
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Power")
+	float InitialPower;
+
+private:
+	//current power level of character
+	UPROPERTY(VisibleAnywhere, Category="Power" )
+		float CharacterPower;
 public:
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }

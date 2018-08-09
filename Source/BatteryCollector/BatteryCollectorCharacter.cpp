@@ -3,6 +3,8 @@
 #include "BatteryCollectorCharacter.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Camera/CameraComponent.h"
+#include "Pickup.h"
+#include "BatteryPickup.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/SphereComponent.h"
 #include "Components/InputComponent.h"
@@ -51,6 +53,11 @@ ABatteryCollectorCharacter::ABatteryCollectorCharacter()
 	CollectionSphere->SetSphereRadius(200.f);
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
+
+	// set a base power level for the character
+	InitialPower = 2000.0f;
+	CharacterPower = InitialPower;
+
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -62,6 +69,8 @@ void ABatteryCollectorCharacter::SetupPlayerInputComponent(class UInputComponent
 	check(PlayerInputComponent);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
+
+	PlayerInputComponent->BindAction("Collect", IE_Released, this, &ABatteryCollectorCharacter::CollectPickups);
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &ABatteryCollectorCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &ABatteryCollectorCharacter::MoveRight);
@@ -82,6 +91,54 @@ void ABatteryCollectorCharacter::SetupPlayerInputComponent(class UInputComponent
 	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &ABatteryCollectorCharacter::OnResetVR);
 }
 
+void ABatteryCollectorCharacter::CollectPickups()
+{
+	// Get all overlapping actors and store them in an array
+	TArray<AActor*> CollectedActors;
+	CollectionSphere->GetOverlappingActors(CollectedActors);
+
+	//for each actor we collected
+	for (int32 isCollected = 0; isCollected < CollectedActors.Num(); ++isCollected)
+	{
+		//Cast the actor to APickup
+		APickup* const TestPickup = Cast<APickup>(CollectedActors[isCollected]);
+
+		//If the cast is successfull and the pickup is valid and active
+		if (TestPickup && !TestPickup->IsPendingKill() && TestPickup->isActive())
+
+		{
+			// call the pickup's WasCollected() function
+			TestPickup->WasCollected();
+
+			// Deactivate the pickup
+			TestPickup->setActive(false);
+		}
+		}
+
+
+	
+
+		
+			
+}
+
+
+//Reports Starting power
+float ABatteryCollectorCharacter::GetInitialPower()
+{
+	return InitialPower;
+}
+
+float ABatteryCollectorCharacter::GetCurrentPower()
+{
+	return CharacterPower;
+}
+
+//Reports current power
+void ABatteryCollectorCharacter::GetUpdatePower(float PowerChange)
+{
+	CharacterPower = CharacterPower + PowerChange;
+}
 
 void ABatteryCollectorCharacter::OnResetVR()
 {
